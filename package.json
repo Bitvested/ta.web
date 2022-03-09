@@ -1,5 +1,5 @@
 {
-  "name": "ta-react",
+  "name": "ta.web",
   "version": "1.0.0",
   "description": "React compatible ta.js",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bitvested/ta-react.git"
+    "url": "git+https://github.com/Bitvested/ta-web.git"
   },
   "author": "Nino Kroesen",
   "license": "MIT",
