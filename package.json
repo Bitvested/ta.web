@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bitvested/ta-web.git"
+    "url": "git+https://github.com/Bitvested/ta.web.git"
   },
   "author": "Nino Kroesen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Bitvested/ta-react/issues"
+    "url": "https://github.com/Bitvested/ta.web/issues"
   },
-  "homepage": "https://github.com/Bitvested/ta-react#readme"
+  "homepage": "https://github.com/Bitvested/ta.web#readme"
 }
