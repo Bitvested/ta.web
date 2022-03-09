@@ -1,5 +1,5 @@
 {
-  "name": "ta-react",
+  "name": "ta.react",
   "version": "1.0.0",
   "description": "React compatible ta.js",
   "main": "index.js",

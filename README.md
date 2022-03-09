@@ -1,20 +1,20 @@
-# Technical Analysis (ta-react)
+# Technical Analysis (ta.react)
 
-ta-react is a react compatible version of ta.js (https://github.com/Bitvested/ta.js).
+ta.react is a react compatible version of ta.js (https://github.com/Bitvested/ta.js).
 Not all ta.js function are compatible with this version!
 
 ## Installation
 
 #### NPM
-Use the package manager npm to install ta-react.
+Use the package manager npm to install ta.react.
 
 ```bash
-npm install ta-react --save
+npm install ta.react --save
 ```
 
 ## Usage
 ```javascript
-import ta from 'ta-react';
+import ta from 'ta.react';
 ```
 ## Examples
 #### Moving Averages
