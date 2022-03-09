@@ -1,7 +1,7 @@
 # Technical Analysis (ta.web)
 
 ta.web is a react compatible version of ta.js (https://github.com/Bitvested/ta.js).
-Not all ta.js function are compatible with this version!
+Not all ta.js functions are compatible with this version!
 
 ## Installation
 
