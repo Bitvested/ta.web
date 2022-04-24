@@ -981,6 +981,18 @@ async function psar(data, step=0.02, max=0.2) {
   }
   return final;
 }
+async function macd_signal(data, length1=12, length2=26, lengthsig=9) {
+  let ma = await module.exports.macd(data, length1, length2),
+      mas = await module.exports.ema(ma, lengthsig);
+  return mas;
+}
+async function macd_bars(data, length1=12, length2=26, lengthsig=9) {
+  var ma = await module.exports.macd(data, length1, length2),
+      mas = await module.exports.ema(ma, lengthsig), ret = [];
+  ma.splice(0,ma.length-mas.length);
+  for(let i in ma) ret.push(ma[i]-mas[i]);
+  return ret;
+}
 module.exports = {
   aroon: { up: aroon_up, down: aroon_down, osc: aroon_osc,},
   random: { range, pick, float, prng },
@@ -992,5 +1004,6 @@ module.exports = {
   envelope, chaikin_osc, fractals, recent_high, recent_low, support,
   resistance, ac, fib, alligator, gator, standardize, er, winratio,
   avgwin, avgloss, fisher, cross, se, kelly, normalize_pair, normalize_from,
-  ar, zscore, log, exp, halftrend, sum, covariance, zigzag, psar
+  ar, zscore, log, exp, halftrend, sum, covariance, zigzag, psar, macd_signal,
+  macd_bars
 }
