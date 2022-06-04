@@ -72,6 +72,7 @@ import ta from 'ta.web';
 - [Bollinger Bands](#bands)
 - [Keltner Channels](#kelt)
 - [Donchian Channels](#don)
+- [Fibonacci Bollinger Bands](#fibbands)
 - [Envelope](#env)
 #### Statistics
 - [Standard Deviation](#std)
@@ -589,6 +590,16 @@ ta.don(data, length);
 // output (array)
 // [[7, 4.5, 2], [7, 4.5, 2]]
 // [upper band, base line, lower band]
+```
+#### <a id="fibbands"></a>Fibonacci Bollinger Bands
+```javascript
+// created from: https://tradingview.com/script/qIKR3tbN-Fibonacci-Bollinger-Bands/
+var data = [[1,59],[1.1,82],[1.21,27],[1.42,73],[1.32,42]]; // [price, volume]
+var length = 4; // default = 20
+var deviations = 3; // default = 3
+ta.fibbands(data, length, deviations);
+// output (array)
+// [[highest band -> fibonacci levels -> lowest band]]
 ```
 #### <a id="env"></a>Envelope
 ```javascript
