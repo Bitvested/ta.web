@@ -8,12 +8,12 @@ async function median(data, length=data.length) {
 }
 async function kmeans(data, clusters) {
   var means = [], centers = [], old = [], n, changed = false, init = Math.round(data.length/(clusters+1));
-  for(i = 0; i < clusters; i++) centers[i] = data[init*(i+1)];
+  for(var i = 0; i < clusters; i++) centers[i] = data[init*(i+1)];
   do {
-    for(i = 0; i < clusters; i++) means[i] = [];
-    for(x = 0; x < data.length; x++) {
+    for(var i = 0; i < clusters; i++) means[i] = [];
+    for(var x = 0; x < data.length; x++) {
       var range = -1, oldrange = -1;
-      for(y = 0; y < clusters; y++) {
+      for(var y = 0; y < clusters; y++) {
         var r = Math.abs(centers[y]-data[x]);
         if(oldrange === -1) {
           oldrange = r;
@@ -26,13 +26,13 @@ async function kmeans(data, clusters) {
       means[n].push(data[x]);
     }
     old = centers;
-    for(x = 0; x < clusters; x++) {
+    for(var x = 0; x < clusters; x++) {
       var sm = 0;
       for(y = 0; y < means[x].length; y++) sm += means[x][y];
       var m = sm / means[n].length;
       centers[x] = m;
     }
-    for(x = 0; x < clusters; x++) if(centers[x] !== old[x]) changed = true;
+    for(var x = 0; x < clusters; x++) if(centers[x] !== old[x]) changed = true;
   } while(changed);
   return means;
 }
@@ -103,7 +103,30 @@ async function ar(data, len=data.length) {
 async function kelly(data) {
   var exp = await module.exports.er(data) + 1,
       winr = await module.exports.winratio(data);
+  if(isNaN(exp)) exp = 1;
   return winr - (1-winr) / exp;
+}
+async function martingale(data, bet, max, multiplier=2) {
+  var current = bet;
+  for(let i in data) {
+    if(data[i] < 0) {
+      current *= multiplier;
+    } else {
+      current = bet;
+    }
+  }
+  return current;
+}
+async function antimartingale(data, bet, max, multliplier=2) {
+  var current = bet;
+  for(let i in data) {
+    if(data[i] > 0) {
+      current *= multiplier;
+    } else {
+      current = bet;
+    }
+  }
+  return current;
 }
 async function winratio(data) {
   var wins = 0, losses = 0;
@@ -447,7 +470,7 @@ async function variance(data, length=data.length) {
   return va;
 }
 async function std(data, length=data.length) {
-  var mean = data.reduce((a, b) => Number(a) + Number(b)) / length;
+  var mean = data.reduce((a, b) => a + b) / length;
   return Math.sqrt(data.reduce((sq, n) => sq + Math.pow(n - mean, 2), 0) / length);
 }
 async function normsinv(p) {
@@ -615,7 +638,7 @@ async function mom_osc(data, length=10) {
   return osc;
 }
 async function ha(data) {
-  var ha = [[(Number(data[0][0]) + Number(data[0][3])) / 2, Number(data[0][1]), Number(data[0][2]), (Number(data[0][0]) + Number(data[0][1]) + Number(data[0][2]) + Number(data[0][3])) / 4]];
+  var ha = [[(data[0][0] + data[0][3]) / 2, data[0][1], data[0][2], (data[0][0] + data[0][1] + data[0][2] + data[0][3]) / 4]];
   for(var i = 1; i < data.length; i++) {
     ha.push([(ha[ha.length - 1][0] + ha[ha.length - 1][3]) / 2, Math.max(ha[ha.length - 1][0], ha[ha.length - 1][3], data[i][1]), Math.min(ha[ha.length - 1][0], ha[ha.length - 1][3], data[i][2]), (data[i][0] + data[i][1] + data[i][2] + data[i][3]) / 4]);
   }
@@ -807,8 +830,8 @@ async function halftrend(data, atrlen, amplitude, deviation) {
     let dev = deviation * atr2,
         highprice = Math.max.apply(null, pl.slice(pl.length-1, pl.length).map(x=>x[0])),
         lowprice = Math.min.apply(null, pl.slice(pl.length-1, pl.length).map(x=>x[2])),
-        highma = await module.exports.sma(pl.slice(pl.length-amplitude,pl.length).map(x=>x[0]), amplitude),
-        lowma = await module.exports.sma(pl.slice(pl.length-amplitude,pl.length).map(x=>x[2]), amplitude);
+        highma = await module.exports.sma(pl.slice(pl.length-amplitude,amplitude).map(x=>x[0]), amplitude),
+        lowma = await module.exports.sma(pl.slice(pl.length-amplitude,amplitude).map(x=>x[2]), amplitude);
     if(nexttrend[nexttrend.length-1] == 1) {
       maxlow = Math.max(lowprice, maxlow);
       if(highma[0] < maxlow && pl[pl.length-1][1] < pl[pl.length-2][2]) {
@@ -1059,11 +1082,11 @@ async function fibbands(data, length=20, deviations=3) {
     }
   }
   for(var i = 0, boll = []; i < vwma.length; i++) {
-    let upper1 = vwma[i] + (0.236 * deviation[i]),
-        upper2 = vwma[i] + (0.382 * deviation[i]),
-        upper3 = vwma[i] + (0.5 * deviation[i]),
-        upper4 = vwma[i] + (0.618 * deviation[i]),
-        upper5 = vwma[i] + (0.764 * deviation[i]),
+    let upper1 = vwma[i] + 0.236 * deviation[i],
+        upper2 = vwma[i] + 0.382 * deviation[i],
+        upper3 = vwma[i] + 0.5 * deviation[i],
+        upper4 = vwma[i] + 0.618 * deviation[i],
+        upper5 = vwma[i] + 0.764 * deviation[i],
         upper6 = vwma[i] + deviation[i],
         lower1 = vwma[i] - 0.236 * deviation[i],
         lower2 = vwma[i] - 0.382 * deviation[i],
@@ -1075,8 +1098,27 @@ async function fibbands(data, length=20, deviations=3) {
   }
   return boll;
 }
+async function supertrend(data, length=20, multiplier=3) {
+  for(var i = length-1, atr = await module.exports.atr(data, length), trend = []; i < data.length; i++) {
+    trend.push([data[i][0] + data[i][2] / 2 + multiplier * atr[i], (data[i][0] + data[i][2]) / 2 - multiplier * atr[i]]);
+  }
+  return trend;
+}
+async function cwma(data, weights) {
+  for(var i = weights.length, ma = []; i <= data.length; i++) {
+    var pl = data.slice(i-weights.length,i), sum = 0, weight = 0;
+    for(var q = 0; q < weights.length; q++) {
+      sum += pl[q] * weights[q];
+      weight += weights[q];
+    }
+    ma.push(sum / weight);
+  }
+  return ma;
+}
+const fibnumbers = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181];
+const permutations = async(data) => data.reduce((a,b) => a * b);
 module.exports = {
-  aroon: { up: aroon_up, down: aroon_down, osc: aroon_osc,},
+  aroon: { up: aroon_up, down: aroon_down, osc: aroon_osc},
   random: { range, pick, float, prng },
   rsi, tsi, fi, pr, stoch, atr, sma, smma, wma, vwma, ao, asi,
   ema, macd, lsma, don, ichimoku, bands, bandwidth, median, keltner,
@@ -1087,5 +1129,6 @@ module.exports = {
   resistance, ac, fib, alligator, gator, standardize, er, winratio,
   avgwin, avgloss, fisher, cross, se, kelly, normalize_pair, normalize_from,
   ar, zscore, log, exp, halftrend, sum, covariance, zigzag, psar, macd_signal,
-  macd_bars, fibbands
+  macd_bars, fibbands, martingale, antimartingale, supertrend, cwma,
+  fibnumbers, permutations
 }
