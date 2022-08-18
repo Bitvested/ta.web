@@ -25,6 +25,7 @@ import ta from 'await ta.web';
 - [Hull Moving Average](#hull)
 - [Least Squares Moving Average](#lsma)
 - [Volume Weighted Moving Average](#vwma)
+- [Volume Weighted Weighted Moving Average](#vwwma)
 - [Wilder's Smoothing Moving Average](#wsma)
 - [Parabolic Weighted Moving Average](#pwma)
 - [Hyperbolic Weighted Moving Average](#hwma)
@@ -62,6 +63,8 @@ import ta from 'await ta.web';
 - [ZigZag](#zigzag)
 - [Parabolic SAR](#psar)
 - [SuperTrend](#supertrend)
+- [Elder Ray Index](#elderray)
+- [Historical Volatility](#hv)
 #### Oscillators
 - [Alligator Oscillator](#gator)
 - [Chande Momentum Oscillator](#mom_osc)
@@ -110,6 +113,8 @@ import ta from 'await ta.web';
 - [Standardize](#standard)
 - [Z-Score](#zscore)
 - [K-means Clustering](#kmeans)
+- [Mean Squared Error](#mse)
+- [Cumulative](#cum)
 #### Chart Types
 - [Heikin Ashi](#ha)
 - [Renko](#ren)
@@ -174,6 +179,14 @@ var length = 4; // default = 20
 await ta.vwma(data, length);
 // output (array)
 // [1.185, 1.259]
+```
+#### <a id="vwwma"></a>Volume Weighted Weighted Moving Average
+```javascript
+var data = [[1,59],[1.1,82],[1.21,27],[1.42,73],[1.32,42]]; // [price, volume]
+var length = 4;
+await ta.vwwma(data, length);
+// output (array)
+// [1.262, 1.316]
 ```
 #### <a id="wsma"></a>Wilder's Smoothing Moving Average
 ```javascript
@@ -519,6 +532,23 @@ await ta.supertrend(data, length, multiplier);
 // output (array)
 // [[5.56,1.44],[3.37,0.63]]
 // [up, down]
+```
+#### <a id="elderray"></a>Elder Ray Index
+```javascript
+var data = [6,5,4,7,8,9,6,8];
+var length = 7;
+await ta.elderray(data, length);
+// output (array)
+// [[2.57,-2.43],[2.29,-2.71]]
+// [bull, bear]
+```
+#### <a id="hv"></a>Historical Volatility
+```javascript
+var data = [7,6,5,7,8,9,7,6,5];
+var length = 8;
+await ta.hv(data, length);
+// output (array)
+// [0.642, 0.682]
 ```
 ### Oscillators
 #### <a id="gator"></a>Alligator Oscillator
@@ -896,6 +926,22 @@ var length = 4;
 await ta.kmeans(data, length);
 // output (array)
 // [[ 4, 5, 5, 4 ], [ 7, 6, 6, 6 ], [ 8, 8 ], [ 2, 3, 3, 2 ]]
+```
+#### <a id="mse"></a>Mean Squared Error
+```javascript
+var data1 = [7,8,7,8,6,9];
+var data2 = [6,8,8,9,6,8];
+await ta.mse(data1, data2);
+// output (float)
+// 0.6666666666666666
+```
+#### <a id="cum"></a>Cumulative
+```javascript
+var data = [3,5,7,5,10];
+var length = 4;
+await ta.cum(data, length);
+// output (array)
+// [20, 27]
 ```
 ### Chart Types
 #### <a id="ha"></a>Heikin Ashi

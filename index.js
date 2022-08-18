@@ -1117,6 +1117,48 @@ async function cwma(data, weights) {
 }
 const fibnumbers = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181];
 const permutations = async(data) => data.reduce((a,b) => a * b);
+async function mse(data1, data2) {
+  for(var i = 0, err = 0; i < data1.length; i++) err += Math.pow((data2[i] - data1[i]), 2);
+  return err / data1.length;
+}
+async function cum(data, length) {
+  for(var i = length, res = []; i <= data.length; i++) {
+    res.push(await module.exports.sum(data.slice(i-length,i)));
+  }
+  return res;
+}
+async function vwwma(data, length=20) {
+  data = data.map(x=>[x[0]*x[1],x[1]]);
+  for(var i = 1, weight = 0; i <= length; i++) weight += i;
+  for(var i = length, vwma = []; i <= data.length; i++) {
+    var pl = data.slice(i-length,i);
+    var totalv = 0, totalp = 0;
+    for(q in pl) {
+      totalv += pl[q][1] * (Number(q)+1) / weight;
+      totalp += pl[q][0] * (Number(q)+1) / weight;
+    }
+    vwma.push(totalp/totalv);
+  }
+  return vwma;
+}
+async function elderray(data, length=13) {
+  for(var i = length, eld = []; i <= data.length; i++) {
+    var pl = data.slice(i-length,i),
+        low = Math.min.apply(undefined, pl),
+        high = Math.max.apply(undefined, pl),
+        em = await module.exports.ema(pl, pl.length);
+    eld.push([high-em[0],low-em[0]]);
+  }
+  return eld;
+}
+async function hv(data, length=10) {
+  for(var i = length, hv = []; i <= data.length; i++) {
+    var ss = await ssd(data.slice(i-length,i)),
+        vari = ss / length;
+    hv.push(Math.sqrt(vari));
+  }
+  return hv;
+}
 module.exports = {
   aroon: { up: aroon_up, down: aroon_down, osc: aroon_osc},
   random: { range, pick, float, prng },
@@ -1130,5 +1172,5 @@ module.exports = {
   avgwin, avgloss, fisher, cross, se, kelly, normalize_pair, normalize_from,
   ar, zscore, log, exp, halftrend, sum, covariance, zigzag, psar, macd_signal,
   macd_bars, fibbands, martingale, antimartingale, supertrend, cwma,
-  fibnumbers, permutations
+  fibnumbers, permutations, mse, cum, vwwma, elderray, hv
 }

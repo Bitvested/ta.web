@@ -1,6 +1,6 @@
 {
   "name": "ta.web",
-  "version": "1.11.2",
+  "version": "1.12.0",
   "description": "React compatible ta.js",
   "main": "index.js",
   "scripts": {
