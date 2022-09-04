@@ -9,7 +9,7 @@ Not all await ta.js functions are compatible with this version!
 Use the package manager npm to install await ta.web.
 
 ```bash
-npm install await ta.web --save
+npm install ta.web --save
 ```
 
 ## Usage
