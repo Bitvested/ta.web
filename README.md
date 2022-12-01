@@ -1,12 +1,12 @@
-# Technical Analysis (await ta.web)
+# Technical Analysis (ta.web)
 
-await ta.web is a react compatible version of await ta.js (https://github.com/Bitvested/await ta.js).
-Not all await ta.js functions are compatible with this version!
+ta.web is a react compatible version of ta.js (https://github.com/Bitvested/ta.js).
+Not all ta.js functions are compatible with this version!
 
 ## Installation
 
 #### NPM
-Use the package manager npm to install await ta.web.
+Use the package manager npm to install ta.web.
 
 ```bash
 npm install ta.web --save
@@ -14,7 +14,7 @@ npm install ta.web --save
 
 ## Usage
 ```javascript
-import ta from 'await ta.web';
+import ta from 'ta.web';
 ```
 ## Examples
 #### Moving Averages
@@ -453,7 +453,7 @@ await ta.obv(data);
 #### <a id="vwap"></a>Volume-Weighted Average Price
 ```javascript
 var data = [[127.21, 89329], [127.17, 16137], [127.16, 23945]]; // [average price, volume (quantity)]
-var length = 2; // default = daawait ta.length
+var length = 2; // default = data.length
 await ta.vwap(data, length);
 // output (array)
 // [127.204, 127.164]
@@ -670,7 +670,7 @@ await ta.envelope(data, length, percentage);
 #### <a id="std"></a>Standard Deviation
 ```javascript
 var data = [1, 2, 3];
-var length = 3; // default = daawait ta.length
+var length = 3; // default = data.length
 await ta.std(data, length);
 // output (float)
 // 0.81649658092773
@@ -678,7 +678,7 @@ await ta.std(data, length);
 #### <a id="variance"></a>Variance
 ```javascript
 var data = [6, 7, 2, 3, 5, 8, 6, 2];
-var length = 7; // default = daawait ta.length
+var length = 7; // default = data.length
 await ta.variance(data, length);
 // output (array)
 // [3.918, 5.061]
@@ -804,7 +804,7 @@ await ta.drawdown(data);
 #### <a id="median"></a>Median
 ```javascript
 var data = [4, 6, 3, 1, 2, 5];
-var length = 4; // default = daawait ta.length
+var length = 4; // default = data.length
 await ta.median(data, length);
 // output (array)
 // [3, 2, 2]
@@ -828,7 +828,7 @@ await ta.recent_low(data, lookback);
 #### <a id="mad"></a>Median Absolute Deviation
 ```javascript
 var data = [3, 7, 5, 4, 3, 8, 9];
-var length = 6; // default = daawait ta.length
+var length = 6; // default = data.length
 await ta.mad(data, length);
 // output (array)
 // [1, 2]
@@ -836,7 +836,7 @@ await ta.mad(data, length);
 #### <a id="aad"></a>Average Absolute Deviation
 ```javascript
 var data = [4, 6, 8, 6, 8, 9, 10, 11];
-var length = 7; // default = daawait ta.length
+var length = 7; // default = data.length
 await ta.aad(data, length);
 // output (array)
 // [1.673, 1.468]
@@ -844,7 +844,7 @@ await ta.aad(data, length);
 #### <a id="stderr"></a>Standard Error
 ```javascript
 var data = [34, 54, 45, 43, 57, 38, 49];
-var size = 10; // default = daawait ta.length
+var size = 10; // default = data.length
 await ta.se(data, size);
 // output (float)
 // 2.424
@@ -852,7 +852,7 @@ await ta.se(data, size);
 #### <a id="ssd"></a>Sum Squared Differences
 ```javascript
 var data = [7, 6, 5, 7, 9, 8, 3, 5, 4];
-var length = 7; // default = daawait ta.length
+var length = 7; // default = data.length
 await ta.ssd(data, length);
 // output (array)
 // [4.87, 4.986, 5.372]
@@ -979,7 +979,7 @@ var support = await ta.support(data, start);
 // support.lowest = lowest (start) value at x = 0
 // support.index = (start) index of the lowest value
 // to get the line at the current candle / chart period
-var current = await support.calculate(daawait ta.length-support.index);
+var current = await support.calculate(data.length-support.index);
 ```
 #### <a id="res"></a>Resistance Line
 ```javascript
@@ -992,7 +992,7 @@ var resistance = await ta.resistance(data, start);
 // resistance.highest = highest (start) value
 // resistance.index = (start) index of highest value
 // to get the line at the current candle / chart period
-var current = await resistance.calculate(daawait ta.length-resistance.index);
+var current = await resistance.calculate(data.length-resistance.index);
 ```
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
