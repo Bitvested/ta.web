@@ -65,6 +65,10 @@ import ta from 'ta.web';
 - [SuperTrend](#supertrend)
 - [Elder Ray Index](#elderray)
 - [Historical Volatility](#hv)
+- [Relative Vigor Index](#rvi)
+- [Relative Vigor Index Signal](#rvi_signal)
+- [RSI Divergence](#rsi_divergence)
+- [Divergence](#divergence)
 #### Oscillators
 - [Alligator Oscillator](#gator)
 - [Chande Momentum Oscillator](#mom_osc)
@@ -112,9 +116,16 @@ import ta from 'ta.web';
 - [Normalize From](#normf)
 - [Standardize](#standard)
 - [Z-Score](#zscore)
+- [P-Value](#pvalue)
 - [K-means Clustering](#kmeans)
 - [Mean Squared Error](#mse)
 - [Cumulative](#cum)
+#### Random functions
+- [Pseudo Random Number Generator](#prng)
+- [Pick Random](#pick)
+- [Random Range](#range)
+- [Random Float](#float)
+- [Random Order](#order)
 #### Chart Types
 - [Heikin Ashi](#ha)
 - [Renko](#ren)
@@ -550,6 +561,44 @@ await ta.hv(data, length);
 // output (array)
 // [0.642, 0.682]
 ```
+#### <a id="rvi"></a>Relative Vigor Index
+```javascript
+// data = [[open,high,low,close]] (requires at least 4 + length values)
+var data = [[4,6,3,3], [3,5,2,2], [2,5,2,4], [4,6,4,5], [5,7,4,4], [4,6,3,4], [4,7,3,5], [5,7,5,6], [6,8,6,6], [6,9,5,6], [6,8,6,7], [7,9,5,6],[6,7,4,5],[5,6,5,6],[6,8,5,5],[5,7,2,6]];
+var length = 8;
+await ta.rvi(data, length);
+// output (array)
+// [0.29,0.21,0.15,0.16,0.09,0.05]
+```
+#### <a id="rvi_signal"></a>Relative Vigor Index Signal
+```javascript
+var rvi = [0.29,0.21,0.15,0.16,0.09,0.05]; // requires at least 4 values
+await ta.rvi_signal(rvi);
+// output (array)
+// [0.20,0.15,0.12]
+```
+#### <a id="rsi_divergence"></a>RSI Divergence
+Experimental function: https://github.com/Bitvested/ta.js/issues/18
+```javascript
+var data = [74,83,66,78,69,70,84,73,74,73,83];
+var rsi_length = 5;
+var rsi_function = ta.wrsi; // default (the tradingview rsi indicator)
+await ta.rsi_divergence(data, rsi_length, rsi_function);
+// output (array)
+// 1 = RSI is in divergence
+// 0 = RSI is not in divergence
+// [0, 0, 1, 0, 1, 0] (better to quantify if needed)
+```
+#### <a id="divergence"></a>Universal Divergence
+```javascript
+var data1 = [48,34,43,54,56,64,43];
+var data2 = [76,74,43,55,34,32,45,47];
+await ta.divergence(data1, data2);
+// output (array)
+// 1 = RSI is in divergence
+// 0 = RSI is not in divergence
+// [0, 0, 1, 1, 0, 1] (better to quantify if needed)
+```
 ### Oscillators
 #### <a id="gator"></a>Alligator Oscillator
 ```javascript
@@ -919,6 +968,14 @@ await ta.zscore(data, length);
 // output (array)
 // [1.266, -1.331, 0.408]
 ```
+#### <a id="pvalue"></a>P-Value
+```javascript
+var t_stat = 2;
+var df = 4;
+await ta.pvalue(t_stat, df);
+// output (float)
+// 0.075
+```
 #### <a id="kmeans"></a>K-means Clustering
 ```javascript
 var data = [2, 3, 4, 5, 3, 5, 7, 8, 6, 8, 6, 4, 2, 6];
@@ -942,6 +999,49 @@ var length = 4;
 await ta.cum(data, length);
 // output (array)
 // [20, 27]
+```
+### Random Functions
+#### <a id="prng"></a>Pseudo Random Number Generator
+```javascript
+var seed = "abcdefg"; // string || number
+var prng = ta.random.prng(seed);
+console.log(prng());
+// output (float)
+// 0.9100735441315919
+```
+#### <a id="pick"></a>Pick Random
+```javascript
+var data = ['a', 'b', 'c'];
+var prng = ta.random.prng('abcdefg');
+ta.random.pick(data, prng); // default number generator = Math.random
+// output (array element)
+// 'c'
+```
+#### <a id="range"></a>Random Range
+```javascript
+var min = 10;
+var max = 50;
+var prng = ta.random.prng('abcdefg');
+ta.random.range(min, max, prng); // default number generator = Math.random
+// output (int)
+// 46
+```
+#### <a id="float"></a>Random Float
+```javascript
+var min = 1.4;
+var max = 2.8;
+var prng = ta.random.prng('abcdefg');
+ta.random.float(min, max, prng); // default number generator = Math.random
+// output (float)
+// 2.6741029617842287
+```
+#### <a id="order"></a>Random Order
+```javascript
+var data = ['a','b','c','d','e'];
+var prng = ta.random.prng('abcdefg');
+ta.random.order(data, prng); // default number generator = Math.random
+// output (array)
+// ['e', 'c', 'b', 'd', 'a'];
 ```
 ### Chart Types
 #### <a id="ha"></a>Heikin Ashi
